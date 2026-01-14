@@ -49,6 +49,15 @@ The CNN model is evaluated using:
 - Qualitative inference visualization on unseen test images
 - Visualization of learned convolutional filters (before and after training)
 
+## How to Run the CNN Project (Local)
+
+This project was trained and evaluated locally (not on Google Colab).
+
+### 1. Install dependencies
+```bash
+pip install -r requirements.txt
+
+
 ---
 
 ## Vision Transformer (ViT) Component (Planned)
