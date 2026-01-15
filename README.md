@@ -1,65 +1,50 @@
-# CNN vs Vision Transformer (ViT) on CIFAR-10 (PyTorch)
+# Comparative Study: Inductive Bias vs. Global Attention on CIFAR-10
 
-This repository presents a structured computer vision project focused on building, analyzing, and comparing two fundamentally different image classification paradigms: Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs). The CNN component has been fully implemented and evaluated, while the ViT component is planned as the second phase of the project, enabling a principled and fair comparison on the same dataset.
-
----
-
-## Dataset
-- **CIFAR-10**: 60,000 color images (32×32 pixels) across 10 classes  
-- Training set: 50,000 images  
-- Test set: 10,000 images  
-
-The dataset is downloaded locally during execution and is intentionally excluded from version control.
+## 1. Project Overview
+This research explores the fundamental architectural trade-off in Computer Vision: the **local inductive bias** of Convolutional Neural Networks (CNNs) versus the **global self-attention** of Vision Transformers (ViTs). Using the CIFAR-10 dataset as a benchmark, this project evaluates model performance under data-constrained conditions. The workflow transitions from a locally engineered, high-accuracy CNN baseline to a cloud-executed ViT experimentation phase, culminating in a hybrid architectural solution.
 
 ---
 
-## Project Objectives
-1. Build a CNN from scratch and iteratively improve it through architectural refinement.
-2. Rigorously evaluate CNN performance using quantitative and qualitative metrics.
-3. Implement a Vision Transformer (ViT) on the same dataset.
-4. Compare CNN and ViT in terms of accuracy, error patterns, and inductive bias.
+## 2. Comparative Analysis & Insights
+The disparity in results below highlights the "Data-Hunger" of Transformers when compared to the spatial efficiency of CNNs.
+
+| Metric | CNN (Local Baseline) | Vision Transformer (Hybrid) |
+| :--- | :--- | :--- |
+| **Final Accuracy** | **80.74%** | **40.00%** |
+| **Best Performing Class** | Automobile (91% F1) | Ship (53% F1) |
+| **Worst Performing Class** | Cat (63% F1) | Bird (28% F1) |
+| **Inductive Bias** | High (Spatial Locality) | Low (Needs more data) |
+
+
+
+**Key Insight:** The ViT outperformed its own average on **Ships and Planes**, suggesting it successfully captured global background context (sea/sky). However, the CNN dominated in **Biological classes (Bird/Cat/Dog)**, where local texture and edge detection are critical—features the ViT struggled to learn from small-scale 32x32 images without massive pre-training.
 
 ---
 
-## CNN Component (Completed)
+## 3. The Development Journey
 
-### Architecture
-The final CNN architecture consists of:
-- 4 × (Convolution → Batch Normalization → ReLU → Max Pooling)
-- Fully connected classifier with dropout
-- Designed specifically for small-resolution images (32×32)
+### The CNN Journey: Local Engineering Mastery
+The CNN phase was a rigorous exercise in hardware and software synchronization. Working locally on a Windows machine, I addressed real-world engineering bottlenecks, including **CUDA multiprocessing bugs** and **GPU memory management**. The project was an iterative process: early instability led to the integration of **Batch Normalization** after every convolution, which stabilized gradient flow and allowed the model to reach its 80.74% peak. Visualizing the first-layer filters confirmed the model successfully evolved from random noise into structured edge detectors (Gabor-like filters).
 
-### Training Details
-- Framework: PyTorch
-- Loss function: Cross-Entropy Loss
-- Optimizer: Adam
-- Hardware: CUDA-enabled NVIDIA GPU
-- Training performed locally (not on cloud platforms)
 
-### Performance
-- Final test accuracy: **~80%**
-- Significant improvement over the baseline CNN through increased depth and batch normalization
 
-### Evaluation & Analysis
-The CNN model is evaluated using:
-- Overall test accuracy
-- Confusion matrix
-- Per-class accuracy
-- Precision, recall, and F1-score
-- Qualitative inference visualization on unseen test images
-- Visualization of learned convolutional filters (before and after training)
+### The ViT Journey: Cloud-Based Architectural Innovation
+Moving to Google Colab to leverage high-memory GPUs, the ViT phase focused on architectural scaling. The primary challenge was the **Quadratic Complexity** of self-attention and the model's inherent "data-hunger." To bridge the performance gap, I engineered a **Hybrid CNN Stem** to provide the Transformer with early spatial priors. This phase involved deep hyperparameter tuning, utilizing **Overlap Patching** and **Cosine Annealing** to force a model—which usually requires millions of images—to converge on the small-scale CIFAR-10 dataset.
 
-## How to Run the CNN Project (Local)
 
-This project was trained and evaluated locally (not on Google Colab).
-
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
 
 ---
-```
-## Vision Transformer (ViT) Component (Planned)
-The second phase of this project will implement a Vision Transformer on CIFAR-10 using patch embeddings and transformer encoder blocks. The goal is to compare ViT performance against the CNN baseline under identical data and evaluation conditions, focusing on differences in learning behavior, data efficiency, and error characteristics.
 
-## Repository Structure
+## 4. Technical Specifications
+
+### CNN Technical Details
+* **Architecture:** 4x (Conv → BatchNorm → ReLU → MaxPool) blocks with a Dropout-stabilized MLP head.
+* **Optimizer:** Adam with Cross-Entropy Loss, implemented via modular Python scripts for training/eval.
+* **Hardware:** Locally executed on NVIDIA GPU with CUDA-accelerated tensor computations.
+* **Analysis:** Includes Confusion Matrices, Per-class F1-scores, and Filter Visualization reports.
+
+### ViT Technical Details
+* **Architecture:** From-scratch ViT with 16x16 Patch Embeddings and 12-layer Transformer Encoders.
+* **Hybrid Features:** Implemented a 3-layer Convolutional Stem and Overlap Patching (stride < kernel).
+* **Optimization:** AdamW optimizer with weight decay (0.05) and Cosine Annealing learning rate schedule.
+* **Hardware:** Cloud-executed on Google Colab GPUs to manage quadratic attention complexity.
