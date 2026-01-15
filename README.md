@@ -48,3 +48,7 @@ Moving to Google Colab to leverage high-memory GPUs, the ViT phase focused on ar
 * **Hybrid Features:** Implemented a 3-layer Convolutional Stem and Overlap Patching (stride < kernel).
 * **Optimization:** AdamW optimizer with weight decay (0.05) and Cosine Annealing learning rate schedule.
 * **Hardware:** Cloud-executed on Google Colab GPUs to manage quadratic attention complexity.
+
+---
+### 📈 Visual Comparison: Performance Metrics
+![CNN vs ViT Comparison Graph](results/comparison_results.png)
