@@ -1,6 +1,31 @@
+# --- Data and Large Files ---
 data/
 checkpoints/
 *.pth
+*.pt
+*.zip
+*.tar.gz
+
+# --- Python Environment & Bytecode ---
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.env
+venv/
+env/
+.conda/
+
+# --- Jupyter Notebooks & Colab ---
 .ipynb_checkpoints/
+.virtual_documents/
+
+# --- IDEs and Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Results (Optional) ---
+# If you want to keep your results/ folder on GitHub, 
+# do NOT add 'results/' here.
