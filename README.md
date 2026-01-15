@@ -14,8 +14,9 @@ The disparity in results below highlights the "Data-Hunger" of Transformers when
 | **Best Performing Class** | Automobile (91% F1) | Ship (53% F1) |
 | **Worst Performing Class** | Cat (63% F1) | Bird (28% F1) |
 | **Inductive Bias** | High (Spatial Locality) | Low (Needs more data) |
-
-
+---
+### 📈 Visual Comparison: Performance Metrics
+![CNN vs ViT Comparison Graph](results/comparison_results.png)
 
 **Key Insight:** The ViT outperformed its own average on **Ships and Planes**, suggesting it successfully captured global background context (sea/sky). However, the CNN dominated in **Biological classes (Bird/Cat/Dog)**, where local texture and edge detection are critical—features the ViT struggled to learn from small-scale 32x32 images without massive pre-training.
 
