@@ -57,12 +57,9 @@ This project was trained and evaluated locally (not on Google Colab).
 ```bash
 pip install -r requirements.txt
 
-
 ---
-
+```
 ## Vision Transformer (ViT) Component (Planned)
 The second phase of this project will implement a Vision Transformer on CIFAR-10 using patch embeddings and transformer encoder blocks. The goal is to compare ViT performance against the CNN baseline under identical data and evaluation conditions, focusing on differences in learning behavior, data efficiency, and error characteristics.
-
----
 
 ## Repository Structure
